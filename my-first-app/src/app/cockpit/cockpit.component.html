@@ -8,7 +8,11 @@
             class="form-control" 
             #serverNameInput> <!-- Local Reference in template -->
         <label for="">Server Content</label>
-        <input type="text" class="form-control" [(ngModel)]="newServerContent">
+        <!-- <input type="text" class="form-control" [(ngModel)]="newServerContent"> -->
+        <input 
+            type="text" 
+            class="form-control" 
+            #serverContentInput>
         <br>
         <!-- <button class="btn btn-primary" (click)="onAddServer()">Add Server</button> -->
         <!-- <button class="btn btn-primary" (click)="onAddBlueprint()">Add Server Blueprint</button> -->
