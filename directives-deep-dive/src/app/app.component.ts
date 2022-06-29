@@ -11,4 +11,5 @@ export class AppComponent {
   numbers: number[] = [1,2,3,4,5]
   oddNumbers: number[] = this.numbers.filter(num => num % 2 !== 0);
   evenNumbers: number[] = this.numbers.filter(num => num % 2 === 0);
+  value = 10;
 }
