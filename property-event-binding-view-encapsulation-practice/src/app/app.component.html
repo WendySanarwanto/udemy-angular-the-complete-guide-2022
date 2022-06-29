@@ -1,0 +1,14 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 center-block" style="margin-bottom: 1em;">
+      <app-game-control (onTick)="onTick($event)" (onTimerStarted)="onTimerStarted()"></app-game-control>
+    </div>    
+    <div class="row" *ngFor="let tick of currentTicks">
+      <app-even [number]="tick"></app-even>
+      <app-odd [number]="tick"></app-odd>
+      <!-- <div class="col-xs-12">
+        <div class="alert alert-info" role="alert">{{tick}}</div>
+      </div> -->
+    </div>
+  </div>
+</div>

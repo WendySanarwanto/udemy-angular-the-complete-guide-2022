@@ -1,0 +1,8 @@
+<div class="row">
+    <button class="btn btn-success btn-lg" 
+            (click)="onStartClicked()"
+            [disabled]="isStarted">Start</button>
+    <button class="btn btn-primary btn-lg" 
+            (click)="onStopClicked()"
+            [disabled]="!isStarted">Stop</button>
+</div>
