@@ -17,4 +17,14 @@ export class ShoppingListComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  onIngredientAdded(ingredient: Ingredient) {
+    this.ingredients.push(ingredient);
+  }
+
+  onIngredientDeleted(ingredient: Ingredient) {
+    let targetIngredientIndex = this.ingredients.findIndex(item => item.name === ingredient.name);
+    if (targetIngredientIndex >= 0) {
+      this.ingredients.splice(targetIngredientIndex, 1);
+    }
+  }
 }
