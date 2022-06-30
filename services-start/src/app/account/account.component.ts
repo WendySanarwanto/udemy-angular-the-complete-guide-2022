@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { AccountService } from '../account.service';
 
 @Component({
   selector: 'app-account',
@@ -8,14 +9,14 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class AccountComponent {
   @Input() account: {name: string, status: string};
   @Input() id: number;
-  @Output() statusChanged = new EventEmitter<{id: number, newStatus: string}>();
 
-  constructor() {
+  constructor(private accountService: AccountService) {
     this.account = { name: '', status: ''};
     this.id = -1;
   }
 
   onSetTo(status: string) {
-    this.statusChanged.emit({id: this.id, newStatus: status});
+    this.accountService.updateAccount(this.id, status);
+    this.accountService.statusUpdated.emit(status);
   }
 }

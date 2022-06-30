@@ -8,8 +8,4 @@ import { AccountService } from './account.service';
 })
 export class AppComponent {
   constructor(public accountService: AccountService){ }
-
-  onStatusChanged(updateInfo: {id: number, newStatus: string}) {
-    this.accountService.updateAccount(updateInfo.id, updateInfo.newStatus);
-  }
 }
