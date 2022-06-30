@@ -10,6 +10,10 @@ export class AccountComponent {
   @Input() id: number;
   @Output() statusChanged = new EventEmitter<{id: number, newStatus: string}>();
 
+  constructor() {
+    this.account = { name: '', status: ''};
+    this.id = -1;
+  }
 
   onSetTo(status: string) {
     this.statusChanged.emit({id: this.id, newStatus: status});
