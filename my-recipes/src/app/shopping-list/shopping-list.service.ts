@@ -1,4 +1,6 @@
 import { EventEmitter, Injectable } from '@angular/core';
+import { Recipe } from '../recipes/recipe.model';
+import { RecipeService } from '../recipes/recipe.service';
 import { Ingredient } from '../shared/ingredient.model';
 
 @Injectable({
@@ -6,12 +8,7 @@ import { Ingredient } from '../shared/ingredient.model';
 })
 export class ShoppingListService {
   onIngredientsChanged: EventEmitter<Ingredient[]> = new EventEmitter();
-  private ingredients: Ingredient[] = [
-    new Ingredient('Egg', 2),
-    new Ingredient('Tumeric', 1)
-  ];
-
-  constructor() { }
+  private ingredients: Ingredient[] = [];
 
   getIngredients() {
     return [...this.ingredients];
@@ -28,5 +25,10 @@ export class ShoppingListService {
       this.ingredients.splice(targetIngredientIndex, 1);
       this.onIngredientsChanged.emit([...this.ingredients]);
     }
+  }
+
+  addIngredients(ingredients: Ingredient[]) {
+    this.ingredients.push(...ingredients);
+    this.onIngredientsChanged.emit([...this.ingredients]);
   }
 }
