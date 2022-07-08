@@ -9,7 +9,8 @@ import { Recipe } from './recipe.model';
 export class RecipeService {
   onRecipeSelected: EventEmitter<Recipe> = new EventEmitter();
   private recipes: Recipe[] = [
-    new Recipe('Soto Ayam Lamongan',
+    new Recipe( 1,
+               'Soto Ayam Lamongan',
                'Soto Ayam khas Lamongan, Jawa Timur.',
                'https://awsimages.detik.net.id/community/media/visual/2019/09/13/bfb173c3-1e98-4cbf-9337-a7504399be26_11.jpeg',
                [
@@ -17,7 +18,8 @@ export class RecipeService {
                 new Ingredient('Egg', 1),
                 new Ingredient('Chickent Meat', 1)
                ]),
-    new Recipe('Nasi Rawon',
+    new Recipe( 2,
+               'Nasi Rawon',
                'Nasi Rawon lezat khas Jawa Timur-an.',
                'https://resepmembuat.com/wp-content/uploads/2015/01/resepmembuat.com-Nasi-Rawon.jpg',
                [
@@ -31,7 +33,12 @@ export class RecipeService {
   getRecipes() {
     return [...this.recipes];
   }
-  
+
+  getRecipeById(id: number) : Recipe | undefined {
+    const recipe: Recipe = this.recipes.find( recipe => recipe.id === id );
+    return recipe;
+  }
+
   addIngredientsToShoppingList(ingredients: Ingredient[]) {
     this.shoppingListService.addIngredients(ingredients);
   }
