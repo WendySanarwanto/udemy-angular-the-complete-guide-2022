@@ -40,16 +40,15 @@
            Upon submitting the form, you should simply print the Value of the Form to the Console.
            Optionally, display it in your template.
       -->
-
     </div>
   </div>
   <div class="row" *ngIf="submitted">
     <div class="col-xs-12">
       <hr>
       <h3>Submitted Data</h3>
-      <p>Email Address: </p>
-      <p>Subscription Type: </p>
-      <p>Password: </p>
+      <p>Email Address: {{ formData.email }}</p>
+      <p>Subscription Type: {{ formData.subscriptionType }}</p>
+      <p>Password: {{ formData.password }} </p>
     </div>
   </div>
 </div>

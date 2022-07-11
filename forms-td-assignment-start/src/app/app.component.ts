@@ -22,6 +22,7 @@ export class AppComponent {
     this.formData.password = this.myForm?.value.password;
     this.formData.subscriptionType = this.myForm?.value.subscription;
     this.submitted = true;
+    console.log(this.formData);
     this.myForm?.reset();
   }
 }
