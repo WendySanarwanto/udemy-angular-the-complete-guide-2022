@@ -1,0 +1,57 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <!-- Create a Form with the following Controls and Validators -->
+      <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+        <!-- 1) Project Name (should not be empty) -->
+        <div class="form-group">
+          <label for="projectname">Project Name</label>
+          <input id="projectname" formControlName="projectname" type="text" class="form-control">
+          <div class="alert alert-warning" 
+            *ngIf="!projectForm.get('projectname')?.valid && projectForm.get('projectname')?.touched">
+            <span *ngIf="projectForm.get('projectname')?.errors['projectnameTestIsForbidden']">Project Name `{{projectForm.get('projectname').value}}` is not allowed !</span>
+            <span *ngIf="projectForm.get('projectname')?.errors['required']">This field is required!</span>
+          </div>
+        </div>
+        <!-- 2) Mail (should not be a empty and a valid email) -->
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input id="email" formControlName="email" type="text" class="form-control">
+          <div class="alert alert-warning"
+            *ngIf="!projectForm.get('email')?.valid && projectForm.get('email')?.touched">
+            Email address is invalid !
+          </div>
+        </div>
+        <!-- 3) Project Status Dropdown, with three values: 'Stable', 'Critical', 'Finished' -->
+        <div class="form-group">
+          <label for="status">Project Status</label>
+          <select formControlName="status" id="status" class="form-control">
+            <option value="stable">Stable</option>
+            <option value="critical">Critical</option>
+            <option value="finished">Finished</option>
+          </select>
+          <div class="alert alert-warning"
+            *ngIf="!projectForm.get('status')?.valid && projectForm.get('status')?.touched">
+            Project Status is invalid !
+          </div>
+        </div>
+        <!-- 4) Submit Button -->
+        <button class="btn btn-primary" type="submit" [disabled]="!projectForm.valid">Submit</button>
+      </form>
+      
+      <!--
+          Create a Form with the following Controls and Validators
+          1) Project Name (should not be empty)
+          2) Mail (should not be a empty and a valid email)
+          3) Project Status Dropdown, with three values: 'Stable', 'Critical', 'Finished'
+          4) Submit Button
+
+          Add your own Validator which doesn't allow "Test" as a Project Name
+
+          Also implement that Validator as an async Validator (replace the other one)
+
+          Upon submitting the form, simply print the value to the console
+      -->
+    </div>
+  </div>
+</div>
