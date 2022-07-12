@@ -50,9 +50,14 @@ export class RecipeService {
     this.recipesChanged.next([...this.recipes]);
   }
 
-  updateRecipe(index: number, newRecipe: Recipe) {
-    this.recipes[index] = newRecipe;
-    this.recipesChanged.next([...this.recipes]);
+  updateRecipe(id: number, newRecipe: Recipe) {
+    // this.recipes[index] = newRecipe;
+    const targetIndex = this.recipes.findIndex(recipe => recipe.id === id);
+    if (targetIndex !== -1) {
+      newRecipe.id = this.recipes[targetIndex].id;
+      this.recipes[targetIndex] = newRecipe;
+      this.recipesChanged.next([...this.recipes]);
+    }
   }
 
   deleteRecipe(id: number) {
