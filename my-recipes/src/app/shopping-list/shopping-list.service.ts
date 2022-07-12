@@ -27,12 +27,9 @@ export class ShoppingListService {
     this.onIngredientsChanged.next([...this.ingredients]);
   }
 
-  removeIngredient(ingredientName: string) {
-    let targetIngredientIndex = this.ingredients.findIndex(item => item.name === ingredientName);
-    if (targetIngredientIndex >= 0) {
-      this.ingredients.splice(targetIngredientIndex, 1);
-      this.onIngredientsChanged.next([...this.ingredients]);
-    }
+  removeIngredient(itemIndex: number) {
+    this.ingredients.splice(itemIndex, 1);
+    this.onIngredientsChanged.next([...this.ingredients]);
   }
 
   addIngredients(ingredients: Ingredient[]) {
