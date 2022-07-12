@@ -8,7 +8,8 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class RecipeService {
-  onRecipeSelected: Subject<Recipe> = new Subject();
+  // onRecipeSelected: Subject<Recipe> = new Subject();
+  recipesChanged = new Subject<Recipe[]>(); 
   private recipes: Recipe[] = [
     new Recipe( 1,
                'Soto Ayam Lamongan',
@@ -42,5 +43,23 @@ export class RecipeService {
 
   addIngredientsToShoppingList(ingredients: Ingredient[]) {
     this.shoppingListService.addIngredients(ingredients);
+  }
+
+  addRecipe(recipe: Recipe){
+    this.recipes.push(recipe);
+    this.recipesChanged.next([...this.recipes]);
+  }
+
+  updateRecipe(index: number, newRecipe: Recipe) {
+    this.recipes[index] = newRecipe;
+    this.recipesChanged.next([...this.recipes]);
+  }
+
+  getNextId() {
+    if (this.recipes.length > 0) {
+      this.recipes.sort((left, right) => left.id - right.id);
+      return this.recipes[this.recipes.length-1].id + 1;
+    }
+    return 1;
   }
 }

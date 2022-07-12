@@ -7,7 +7,7 @@
 <div class="row">
     <div class="col-xs-12">
         <div class="list-group">
-            <app-recipe-item *ngFor="let recipeEl of recipeService.getRecipes()" 
+            <app-recipe-item *ngFor="let recipeEl of recipes" 
                 [recipe]="recipeEl"></app-recipe-item>
         </div>
     </div>
