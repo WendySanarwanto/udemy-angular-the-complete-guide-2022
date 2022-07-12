@@ -55,6 +55,14 @@ export class RecipeService {
     this.recipesChanged.next([...this.recipes]);
   }
 
+  deleteRecipe(id: number) {
+    // this.recipes.splice(index, 1);
+    this.recipes.splice(
+      this.recipes.findIndex(recipe => recipe.id === id),1
+    );
+    this.recipesChanged.next([...this.recipes]);
+  }
+
   getNextId() {
     if (this.recipes.length > 0) {
       this.recipes.sort((left, right) => left.id - right.id);
