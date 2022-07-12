@@ -10,11 +10,16 @@ import { Subject } from 'rxjs';
 export class ShoppingListService {
   // onIngredientsChanged: EventEmitter<Ingredient[]> = new EventEmitter();
   onIngredientsChanged: Subject<Ingredient[]> = new Subject();
+  startedEditing: Subject<number> = new Subject() ;
 
   private ingredients: Ingredient[] = [];
 
   getIngredients() {
     return [...this.ingredients];
+  }
+
+  getIngredient(index: number) {
+    return this.ingredients[index];
   }
 
   addIngredient(ingredient: Ingredient) {
