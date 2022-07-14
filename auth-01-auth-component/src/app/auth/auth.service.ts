@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { lastValueFrom, Subject } from 'rxjs';
+import { BehaviorSubject, lastValueFrom, Subject } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { User } from './user.model';
 
@@ -23,7 +23,7 @@ export class AuthService {
   SIGNUP_URL: string = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp';
   LOGIN_URL: string = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword';
   API_KEY: string = environment.API_KEY;
-  user: Subject<User> = new Subject();
+  user = new BehaviorSubject<User|null>(null);
 
   constructor(private http: HttpClient) { }
 
