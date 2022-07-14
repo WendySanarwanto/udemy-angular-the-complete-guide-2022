@@ -11,23 +11,23 @@ export class RecipeService {
   // onRecipeSelected: Subject<Recipe> = new Subject();
   recipesChanged = new Subject<Recipe[]>(); 
   private recipes: Recipe[] = [
-    new Recipe( 1,
-               'Soto Ayam Lamongan',
-               'Soto Ayam khas Lamongan, Jawa Timur.',
-               'https://awsimages.detik.net.id/community/media/visual/2019/09/13/bfb173c3-1e98-4cbf-9337-a7504399be26_11.jpeg',
-               [
-                new Ingredient('Tumeric', 1),
-                new Ingredient('Egg', 1),
-                new Ingredient('Chickent Meat', 1)
-               ]),
-    new Recipe( 2,
-               'Nasi Rawon',
-               'Nasi Rawon lezat khas Jawa Timur-an.',
-               'https://resepmembuat.com/wp-content/uploads/2015/01/resepmembuat.com-Nasi-Rawon.jpg',
-               [
-                new Ingredient('Beef Meat', 1),
-                new Ingredient('Egg', 1)
-               ])
+    // new Recipe( 1,
+    //            'Soto Ayam Lamongan',
+    //            'Soto Ayam khas Lamongan, Jawa Timur.',
+    //            'https://awsimages.detik.net.id/community/media/visual/2019/09/13/bfb173c3-1e98-4cbf-9337-a7504399be26_11.jpeg',
+    //            [
+    //             new Ingredient('Tumeric', 1),
+    //             new Ingredient('Egg', 1),
+    //             new Ingredient('Chickent Meat', 1)
+    //            ]),
+    // new Recipe( 2,
+    //            'Nasi Rawon',
+    //            'Nasi Rawon lezat khas Jawa Timur-an.',
+    //            'https://resepmembuat.com/wp-content/uploads/2015/01/resepmembuat.com-Nasi-Rawon.jpg',
+    //            [
+    //             new Ingredient('Beef Meat', 1),
+    //             new Ingredient('Egg', 1)
+    //            ])
   ];
 
   constructor(private shoppingListService: ShoppingListService) { }
@@ -74,5 +74,15 @@ export class RecipeService {
       return this.recipes[this.recipes.length-1].id + 1;
     }
     return 1;
+  }
+
+  clear() {
+    this.recipes = [];
+    this.recipesChanged.next([...this.recipes]);
+  }
+
+  setRecipes(recipes: Recipe[]) {
+    this.recipes = recipes;
+    this.recipesChanged.next([...this.recipes]);
   }
 }
