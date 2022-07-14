@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
 
 @Component({
@@ -11,7 +12,7 @@ export class AuthComponent {
   isLoading: boolean = false;
   error: string | null = null;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   onSwitchMode() {
     this.isLoginMode = !this.isLoginMode;
@@ -39,7 +40,8 @@ export class AuthComponent {
     try {
       const loginResponse = await this.authService.login(email, password);
       form.reset();
-      // return loginResponse;
+      // redirect to protected home route
+      this.router.navigate(['/recipes']);
     } catch (err) {
       // Display nice error message to user
       this.error = 'Incorrect credential';
