@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject, lastValueFrom, Subject } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { User } from './user.model';
@@ -25,7 +26,7 @@ export class AuthService {
   API_KEY: string = environment.API_KEY;
   user = new BehaviorSubject<User|null>(null);
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   async signUp(email: string, password: string) {
     let params = new HttpParams();
@@ -51,5 +52,10 @@ export class AuthService {
       response.idToken,
       new Date(new Date().getTime() + +response.expiresIn * 1000)
     ));
+  }
+
+  logout() {
+    this.user.next(null);
+    this.router.navigate(['/auth']);
   }
 }
