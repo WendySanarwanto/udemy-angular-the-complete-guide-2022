@@ -27,6 +27,24 @@ export class DataStorageService {
   }
 
   fetchRecipes() {
+    return this.http
+      .get<Recipe[]>(this.backendUrl)
+      .pipe(
+        map(recipes => {
+          return recipes.map(recipe => {
+            return {
+              ...recipe,
+              ingredients: recipe.ingredients ? recipe.ingredients : []
+            };
+          });
+        }),
+        tap(recipes => {
+          this.recipeService.setRecipes(recipes);
+        })
+      );
+  }
+
+  fetchRecipesDeprecated() {
     // take the latest data, unsubscribe then go to exhaustMap, going to new observable 
     return this.authService.user.pipe(
       take(1), 
