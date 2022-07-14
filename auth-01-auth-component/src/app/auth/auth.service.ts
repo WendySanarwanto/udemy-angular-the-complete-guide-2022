@@ -25,6 +25,7 @@ export class AuthService {
   LOGIN_URL: string = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword';
   API_KEY: string = environment.API_KEY;
   user = new BehaviorSubject<User|null>(null);
+  tokenExpirationTimer: any;
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -46,13 +47,15 @@ export class AuthService {
         { email, password, returnSecureToken: true }, { params });
     const response: SignInResponse = await lastValueFrom(observableResponse);
     console.log(response);
+    const tokenExpiresIn: number = +response.expiresIn;
     const userData = new User(
       response.email,
       response.localId,
       response.idToken,
-      new Date(new Date().getTime() + +response.expiresIn * 1000)
+      new Date(new Date().getTime() + tokenExpiresIn * 1000)
     )
     this.user.next(userData);
+    this.autoLogout(tokenExpiresIn * 1000);
     localStorage.setItem('userData', JSON.stringify(userData));
   }
 
@@ -70,12 +73,32 @@ export class AuthService {
     );
     if (userData.token) {
       this.user.next(userData);
+      // Future token expiration date ( in milliseconds) - current time ( in milliseconds)
+      const tokenExpireDuration: number = 
+        new Date(rawUserData['_tokenExpirationDate']).getTime() - new Date().getTime();
+      this.autoLogout(tokenExpireDuration);
     }
   }
 
   logout() {
     this.user.next(null);
-    localStorage.removeItem('userData');
+    if (this.tokenExpirationTimer) {
+      clearTimeout(this.tokenExpirationTimer);
+    }
+    this.tokenExpirationTimer = null;
+    // localStorage.removeItem('userData');
+    localStorage.clear();
     this.router.navigate(['/auth']);
+  }
+
+  /**
+   * Logout current authenticated user , automatically
+   * @param expirationDuration In Milliseconds
+   */
+  autoLogout(expirationDuration: number) {
+    // expirationDuration = 5000; // NOTE: Enable this to testing autologout
+    console.log(`autoLogout-expirationDuration: ${expirationDuration}`);
+    this.tokenExpirationTimer = 
+      setTimeout(() => this.logout(), expirationDuration);
   }
 }
