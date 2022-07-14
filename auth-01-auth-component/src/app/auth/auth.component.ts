@@ -8,6 +8,8 @@ import { AuthService } from './auth.service';
 })
 export class AuthComponent {
   isLoginMode: boolean = true;
+  isLoading: boolean = false;
+  error: string | null = null;
 
   constructor(private authService: AuthService) {}
 
@@ -17,20 +19,32 @@ export class AuthComponent {
 
   async onSubmit(form: NgForm) {
     // console.log(form.value);
-    const email = form.value.email;
-    const password = form.value.password;
     if (!form.valid) {
       return;
     }
-    
+
+    const email = form.value.email;
+    const password = form.value.password;
+    this.error = null;
+    this.isLoading = true;
+
     if (!this.isLoginMode) {
       try{
         await this.authService.signUp(email, password);
-      } catch(err){
-        // TODO: Display nice error message to user
+        form.reset();
+      } catch(err: any){
+        // Display nice error message to user
+        switch(err?.error?.error?.message) {
+          case 'EMAIL_EXISTS': 
+            this.error = 'This email exists already';
+            break;
+          default:
+            this.error = 'Last action got error.';
+        }
         console.log(err);
+      } finally {
+        this.isLoading = false;
       }
     }
-    form.reset();
   }
 }
