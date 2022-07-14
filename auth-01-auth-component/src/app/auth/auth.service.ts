@@ -46,16 +46,36 @@ export class AuthService {
         { email, password, returnSecureToken: true }, { params });
     const response: SignInResponse = await lastValueFrom(observableResponse);
     console.log(response);
-    this.user.next(new User(
+    const userData = new User(
       response.email,
       response.localId,
       response.idToken,
       new Date(new Date().getTime() + +response.expiresIn * 1000)
-    ));
+    )
+    this.user.next(userData);
+    localStorage.setItem('userData', JSON.stringify(userData));
+  }
+
+  autoLogin() {
+    const strUserData = localStorage.getItem('userData');
+    if (!strUserData) {
+      return;
+    }
+    const rawUserData: any = JSON.parse(strUserData);
+    const userData: User = new User(
+      rawUserData['email'],
+      rawUserData['id'],
+      rawUserData['_token'],
+      rawUserData['_tokenExpirationDate']
+    );
+    if (userData.token) {
+      this.user.next(userData);
+    }
   }
 
   logout() {
     this.user.next(null);
+    localStorage.removeItem('userData');
     this.router.navigate(['/auth']);
   }
 }
