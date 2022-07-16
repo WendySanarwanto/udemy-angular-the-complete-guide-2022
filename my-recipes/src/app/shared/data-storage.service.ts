@@ -1,14 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { RecipeService } from '../recipes/recipe.service';
-import { last, lastValueFrom, map } from 'rxjs';
+import { lastValueFrom, map } from 'rxjs';
 import { Recipe } from '../recipes/recipe.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataStorageService {
-  BACKEND_URL: string = 'https://ng-course-my-recipes-default-rtdb.asia-southeast1.firebasedatabase.app';
+  BACKEND_URL: string = environment['BACKEND_URL'];
 
   constructor(private http: HttpClient, private recipeService: RecipeService) { }
 
@@ -22,13 +23,13 @@ export class DataStorageService {
 
   async fetchRecipes() {
     const apiUrl = `${this.BACKEND_URL}/recipes.json`;
-    const getObservableResponse = 
+    const getObservableResponse =
       this.http.get<Recipe[]>(apiUrl).pipe(map((recipes: Recipe[])=>{
         return recipes.map((recipe: Recipe) => {
           return {...recipe, ingredients: recipe.ingredients ? recipe.ingredients : []}
         });
       }));
-    
+
     const response = await lastValueFrom(getObservableResponse);
     this.recipeService.setRecipes(response);
   }
