@@ -1,4 +1,4 @@
-import { trigger, state, style, transition, animate } from '@angular/animations';
+import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
 import { Component } from '@angular/core';
 
 @Component({
@@ -53,6 +53,42 @@ import { Component } from '@angular/core';
           transform: 'translateX(-100px)'
         }),
         animate(300)
+      ]),
+      transition('* => void', [
+        animate(300, style({
+          transform: 'translateX(100px)',
+          opacity: 0
+        }))
+      ]),
+    ]),
+    trigger('list2', [
+      state('in', style({
+        opacity: 1,
+        transform: 'translateX(0)'
+      })),
+      transition('void => *', [
+        animate(1000, keyframes([
+          style({
+            transform: 'translateX(-100px)',
+            opacity: 0,
+            offset: 0
+          }),
+          style({
+            transform: 'translateX(-50px)',
+            opacity: 0.5,
+            offset: 0.3
+          }),
+          style({
+            transform: 'translate(-20px)',
+            opacity: 1,
+            offset: 0.8
+          }),
+          style({
+            transform: 'translate(0px)',
+            opacity: 1.0,
+            offset: 1
+          })
+        ]))
       ]),
       transition('* => void', [
         animate(300, style({
